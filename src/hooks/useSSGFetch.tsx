@@ -3,18 +3,15 @@ import React, { useEffect, useState } from 'react';
 import request, { gql } from 'graphql-request';
 
 const useSSGFetch = () => {
-  const [countryDetails, setCountryDetails] = useState<any[]>([]);
-
+  const [countryDetails, setCountryDetails] = useState<any>([]);
   const countryCode = useRouter().query.code as string;
-
   const countryName = countryDetails === undefined ? `` : countryDetails.name;
-
   const emoji = countryDetails === undefined ? `` : countryDetails.emoji;
 
   const countryLanguages = () =>
     countryDetails === undefined
       ? ``
-      : countryDetails.languages.map((language) => (
+      : countryDetails.languages.map((language: any) => (
           <li key={language.name}>{language.name}</li>
         ));
 
