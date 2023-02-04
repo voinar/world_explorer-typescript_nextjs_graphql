@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import Return from './components/Return';
 import CountryTile from './components/CountryTile';
 import styles from '@/styles/Home.module.css';
+import { SpinnerDotted } from 'spinners-react';
 
 // Na route'ach SSG pobieraj przy pomocy GraphQL Request
 // /countries -> SSG - pobiera listę państw i je wylistowuje:
@@ -30,12 +31,13 @@ const Countries: FunctionComponent<CountriesInterface> = () => {
   }, [GET_ALL_COUNTRIES]);
 
   const CountriesList: any = () => {
-    const data = allCountriesData.map((country, index) => (
-      <CountryTile country={country} index={index} key={index} />
-      // </a>
-    ));
-
-    return data;
+    return allCountriesData.length !== 0 ? (
+      allCountriesData.map((country, index) => (
+        <CountryTile country={country} index={index} key={index} />
+      ))
+    ) : (
+      <SpinnerDotted />
+    );
   };
 
   return (

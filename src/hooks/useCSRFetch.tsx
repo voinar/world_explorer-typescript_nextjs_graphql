@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react';
 // import { gql } from '@apollo/client';
 // import client from '../apollo-client';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-  useQuery,
-} from '@apollo/client';
+import { client } from '../queries/client';
+import { GET_COUNTRY_DETAILS } from '../queries/getCountryDetails';
+import { gql } from '@apollo/client';
 
-const useCSRFetch = () => {
+const useCSRFetch = (profileCountry: string) => {
   const defaultData = {
-    name: `Poland`,
-    code: `PL`,
-    emoji: `🇵🇱`,
+    name: ``,
+    code: ``,
+    emoji: ``,
     languages: [
       {
-        name: `Polish`,
+        name: ``,
       },
     ],
   };
@@ -38,17 +34,19 @@ const useCSRFetch = () => {
   `;
 
   useEffect(() => {
-    const client = new ApolloClient({
-      uri: `https://countries.trevorblades.com/`,
-      cache: new InMemoryCache(),
-    });
-
     client
       .query({
         query: GET_COUNTRY_DETAILS,
+        variables: {
+          countriesFilter: {
+            code: {
+              eq: profileCountry,
+            },
+          },
+        },
       })
       .then((data) => setProfileCountryDetails(data.data.countries[0]));
-  }, []);
+  }, [GET_COUNTRY_DETAILS, profileCountry]);
 
   return { defaultData, profileCountryDetails, setProfileCountryDetails };
 };
