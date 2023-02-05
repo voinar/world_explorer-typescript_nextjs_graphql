@@ -13,16 +13,16 @@ interface CountryTileInterface {
 const CountryTile: React.FC<CountryTileInterface> = (country, index) => (
   <>
     <a
-      href={`./countries/${country.country.code}`}
+      href={`./countries/${country?.country?.code}`}
       className={styles.card}
       key={index}
     >
-      {country.country.name.length === 0 ? (
+      {country?.country?.name.length === 0 ? (
         <SpinnerDotted />
       ) : (
         <>
-          <h2>{country.country.name} </h2>
-          <p>{country.country.code} </p>
+          <h2>{country?.country?.name} </h2>
+          <p>{country?.country?.code} </p>
         </>
       )}
     </a>

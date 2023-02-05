@@ -14,9 +14,7 @@ import getAllCountries from 'src/graphql/getAllCountries.graphql';
 const Countries = () => {
   const [allCountriesData, setAllCountriesData] = useState<[]>([]);
 
-  const CountriesList:
-    | React.FC<Country>
-    | (() => JSX.Element | JSX.Element[]) = () => {
+  const CountriesList: React.FC<Country> | any = () => {
     return allCountriesData ? (
       allCountriesData.map((country, index) => (
         <CountryTile country={country} index={index} key={index} />
