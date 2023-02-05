@@ -1,17 +1,18 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import request, { gql } from 'graphql-request';
+import { Country } from '@/gql/graphql';
 
 const useSSGFetch = () => {
-  const [countryDetails, setCountryDetails] = useState<any>([]);
+  const [countryDetails, setCountryDetails] = useState<Country>();
   const countryCode = useRouter().query.code as string;
   const countryName = countryDetails === undefined ? `` : countryDetails.name;
-  const emoji = countryDetails === undefined ? `` : countryDetails.emoji;
+  const countryEmoji = countryDetails === undefined ? `` : countryDetails.emoji;
 
-  const countryLanguages = () =>
+  const countryOfficialLanguages = () =>
     countryDetails === undefined
       ? ``
-      : countryDetails.languages.map((language: any) => (
+      : countryDetails.languages.map((language) => (
           <li key={language.name}>{language.name}</li>
         ));
 
@@ -29,7 +30,7 @@ const useSSGFetch = () => {
   `;
 
   useEffect(() => {
-    (countryDetails === undefined || countryDetails.length === 0) &&
+    countryDetails === undefined &&
       request(`https://countries.trevorblades.com/`, GET_COUNTRY_DETAILS, {
         countriesFilter: {
           code: {
@@ -46,8 +47,8 @@ const useSSGFetch = () => {
     countryDetails,
     setCountryDetails,
     countryName,
-    emoji,
-    countryLanguages,
+    countryEmoji,
+    countryOfficialLanguages,
   };
 };
 

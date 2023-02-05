@@ -1,36 +1,18 @@
 import { request, gql } from 'graphql-request';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { Country } from '@/gql/graphql';
+import { useEffect, useState } from 'react';
+import { SpinnerDotted } from 'spinners-react';
 import Return from './components/Return';
 import CountryTile from './components/CountryTile';
 import styles from '@/styles/Home.module.css';
-import { SpinnerDotted } from 'spinners-react';
 
-// Na route'ach SSG pobieraj przy pomocy GraphQL Request
-// /countries -> SSG - pobiera listę państw i je wylistowuje:
-// kafelek państwa zawiera: name, code + jest linkiem (przenosi do podstrony)
+const Countries = () => {
+  const [allCountriesData, setAllCountriesData] = useState<[]>([]);
 
-interface CountriesInterface {
-  allCountriesData: [];
-}
-
-const Countries: FunctionComponent<CountriesInterface> = () => {
-  const [allCountriesData, setAllCountriesData] = useState<any[]>([]);
-  const GET_ALL_COUNTRIES = gql`
-    {
-      countries {
-        code
-        name
-      }
-    }
-  `;
-
-  useEffect(() => {
-    request(`https://countries.trevorblades.com/`, GET_ALL_COUNTRIES).then(
-      (data) => setAllCountriesData(data.countries),
-    );
-  }, [GET_ALL_COUNTRIES]);
-
-  const CountriesList: any = () => {
+  const CountriesList:
+    | React.FC<Country>
+    | (() => JSX.Element | JSX.Element[])
+    | (() => Element | Element[]) = () => {
     return allCountriesData.length !== 0 ? (
       allCountriesData.map((country, index) => (
         <CountryTile country={country} index={index} key={index} />
@@ -39,6 +21,21 @@ const Countries: FunctionComponent<CountriesInterface> = () => {
       <SpinnerDotted />
     );
   };
+
+  useEffect(() => {
+    const GET_ALL_COUNTRIES = gql`
+      query getAllCountries {
+        countries {
+          code
+          name
+        }
+      }
+    `;
+
+    request(`https://countries.trevorblades.com/`, GET_ALL_COUNTRIES).then(
+      (data) => setAllCountriesData(data.countries),
+    );
+  }, []);
 
   return (
     <div className={styles.container}>

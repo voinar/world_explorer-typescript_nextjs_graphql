@@ -4,18 +4,17 @@ import CountryTile from './components/CountryTile';
 
 import useCSRFetch from '../hooks/useCSRFetch';
 import { ApolloProvider } from '@apollo/client';
-import { client } from '../queries/client';
+import { client } from '../graphql/client';
 
 export default function Home() {
-  const profileCountry = `PL`;
-
+  const profileCountry = `PL`; // default profile country
   const { profileCountryDetails } = useCSRFetch(profileCountry);
 
   return (
     <ApolloProvider client={client}>
       <div className={styles.container}>
         <Head>
-          <title>TypeScript starter for Next.js</title>
+          <title>World Explorer</title>
           <meta name="description" content="Welcome to Countries Explorer" />
           <link rel="icon" href="/favicon.ico" />
         </Head>

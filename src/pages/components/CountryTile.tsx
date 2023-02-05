@@ -2,11 +2,14 @@
 // /:profile -> CSR - pobiera informacje o Polsce (tak jakby użytkownik miał Polskę wybraną w swoim profilu):
 // kafelek Polski zawiera: name, code + jest linkiem (przenosi do podstrony)
 import { SpinnerDotted } from 'spinners-react';
-
 import styles from '@/styles/Home.module.css';
 
 interface CountryTileInterface {
-  country: any;
+  country: {
+    code: string;
+    name: string;
+  };
+
   index?: number;
   key?: number;
 }

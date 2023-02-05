@@ -1,0 +1,10 @@
+query getCountryDetails($countriesFilter: CountryFilterInput) {
+  countries(filter: $countriesFilter) {
+    name
+    code
+    emoji
+    languages {
+      name
+    }
+  }
+}

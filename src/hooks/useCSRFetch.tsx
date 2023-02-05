@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react';
-// import { gql } from '@apollo/client';
-// import client from '../apollo-client';
-import { client } from '../queries/client';
-import { GET_COUNTRY_DETAILS } from '../queries/getCountryDetails';
+import { client } from '../graphql/client';
 import { gql } from '@apollo/client';
+import { Country } from '@/gql/graphql';
+
+type DefaultData = {
+  name: string;
+  code: string;
+  emoji: string;
+  languages: {
+    name: string;
+  }[];
+};
 
 const useCSRFetch = (profileCountry: string) => {
   const defaultData = {
@@ -17,8 +24,9 @@ const useCSRFetch = (profileCountry: string) => {
     ],
   };
 
-  const [profileCountryDetails, setProfileCountryDetails] =
-    useState(defaultData);
+  const [profileCountryDetails, setProfileCountryDetails] = useState<
+    Country | DefaultData
+  >(defaultData);
 
   const GET_COUNTRY_DETAILS = gql`
     query getCountryDetails($countriesFilter: CountryFilterInput) {
