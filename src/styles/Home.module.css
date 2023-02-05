@@ -1,6 +1,5 @@
 .container {
   padding: 0 2rem;
-  /* min-height: 100vh; */
 }
 
 .main {
@@ -11,6 +10,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.main h2 {
+  font-weight: 600;
+  font-size: 2rem;
+  padding: 0 0 2rem 0;
 }
 
 .footer {
@@ -126,7 +131,7 @@
 .countryPage h1 {
   margin: 0 0 1rem 0;
   font-size: 3.5rem;
-  font-weight: 200;
+  font-weight: 500;
 }
 
 .countryPage h2 {

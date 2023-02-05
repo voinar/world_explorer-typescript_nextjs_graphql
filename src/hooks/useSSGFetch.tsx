@@ -1,36 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import request, { gql } from 'graphql-request';
+import { useRouter, useEffect, useState, request, gql } from '../imports';
+import getCountryDetails from 'src/graphql/getCountryDetails.graphql';
 import { Country } from '@/gql/graphql';
 
 const useSSGFetch = () => {
   const [countryDetails, setCountryDetails] = useState<Country>();
   const countryCode = useRouter().query.code as string;
-  const countryName = countryDetails === undefined ? `` : countryDetails.name;
-  const countryEmoji = countryDetails === undefined ? `` : countryDetails.emoji;
+  const countryName = !countryDetails ? `` : countryDetails.name;
+  const countryEmoji = !countryDetails ? `` : countryDetails.emoji;
 
   const countryOfficialLanguages = () =>
-    countryDetails === undefined
+    !countryDetails
       ? ``
       : countryDetails.languages.map((language) => (
           <li key={language.name}>{language.name}</li>
         ));
 
   const GET_COUNTRY_DETAILS = gql`
-    query getCountryDetails($countriesFilter: CountryFilterInput) {
-      countries(filter: $countriesFilter) {
-        name
-        code
-        emoji
-        languages {
-          name
-        }
-      }
-    }
+    ${getCountryDetails.getCountryDetails.loc.source.body}
   `;
 
   useEffect(() => {
-    countryDetails === undefined &&
+    !countryDetails &&
       request(`https://countries.trevorblades.com/`, GET_COUNTRY_DETAILS, {
         countriesFilter: {
           code: {
@@ -39,8 +29,6 @@ const useSSGFetch = () => {
         },
       }).then((data) => setCountryDetails(data.countries[0]));
   }, [GET_COUNTRY_DETAILS, countryCode, countryDetails]);
-
-  console.log(countryDetails);
 
   return {
     countryCode,

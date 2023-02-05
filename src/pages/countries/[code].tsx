@@ -1,7 +1,5 @@
-import styles from '@/styles/Home.module.css';
+import { Return, SpinnerDotted, styles } from '../../imports';
 import useSSGFetch from '../../hooks/useSSGFetch';
-import { SpinnerDotted } from 'spinners-react';
-import Return from '../components/Return';
 
 const CountryPage: React.FC = () => {
   const {

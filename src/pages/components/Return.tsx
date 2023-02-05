@@ -1,5 +1,4 @@
-import styles from '@/styles/Home.module.css';
-import router from 'next/router';
+import { router, styles } from '../../imports';
 
 const Return = () => (
   <button className={styles.return} onClick={() => router.back()}>

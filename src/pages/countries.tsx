@@ -1,19 +1,23 @@
-import { request, gql } from 'graphql-request';
+import {
+  request,
+  gql,
+  useEffect,
+  useState,
+  SpinnerDotted,
+  Return,
+  CountryTile,
+  styles,
+} from '../imports';
 import { Country } from '@/gql/graphql';
-import { useEffect, useState } from 'react';
-import { SpinnerDotted } from 'spinners-react';
-import Return from './components/Return';
-import CountryTile from './components/CountryTile';
-import styles from '@/styles/Home.module.css';
+import getAllCountries from 'src/graphql/getAllCountries.graphql';
 
 const Countries = () => {
   const [allCountriesData, setAllCountriesData] = useState<[]>([]);
 
   const CountriesList:
     | React.FC<Country>
-    | (() => JSX.Element | JSX.Element[])
-    | (() => Element | Element[]) = () => {
-    return allCountriesData.length !== 0 ? (
+    | (() => JSX.Element | JSX.Element[]) = () => {
+    return allCountriesData ? (
       allCountriesData.map((country, index) => (
         <CountryTile country={country} index={index} key={index} />
       ))
@@ -24,12 +28,7 @@ const Countries = () => {
 
   useEffect(() => {
     const GET_ALL_COUNTRIES = gql`
-      query getAllCountries {
-        countries {
-          code
-          name
-        }
-      }
+      ${getAllCountries.getAllCountries.loc.source.body}
     `;
 
     request(`https://countries.trevorblades.com/`, GET_ALL_COUNTRIES).then(
@@ -41,7 +40,7 @@ const Countries = () => {
     <div className={styles.container}>
       <main className={styles.main}>
         <Return />
-        <header>Explore all countries &rarr;</header>
+        <h2>Explore all countries: </h2>
         <div className={styles.grid}>
           <CountriesList />
         </div>

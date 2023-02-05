@@ -1,13 +1,9 @@
-import Head from 'next/head';
-import styles from '@/styles/Home.module.css';
-import CountryTile from './components/CountryTile';
-
+import { Head, styles, CountryTile, client, ApolloProvider } from '../imports';
 import useCSRFetch from '../hooks/useCSRFetch';
-import { ApolloProvider } from '@apollo/client';
-import { client } from '../graphql/client';
+
+const profileCountry = `PL`; // default profile country
 
 export default function Home() {
-  const profileCountry = `PL`; // default profile country
   const { profileCountryDetails } = useCSRFetch(profileCountry);
 
   return (
@@ -29,7 +25,7 @@ export default function Home() {
           <div className={styles.grid}>
             <a href="./countries" className={styles.card}>
               <h2>All Countries &rarr;</h2>
-              <p>View full list of countries available</p>
+              <p>View full list of countries</p>
             </a>
 
             <CountryTile country={profileCountryDetails} />

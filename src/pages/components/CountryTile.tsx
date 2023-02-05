@@ -1,8 +1,4 @@
-// Na route'ach CSR pobieraj przy pomocy Apollo Client
-// /:profile -> CSR - pobiera informacje o Polsce (tak jakby użytkownik miał Polskę wybraną w swoim profilu):
-// kafelek Polski zawiera: name, code + jest linkiem (przenosi do podstrony)
-import { SpinnerDotted } from 'spinners-react';
-import styles from '@/styles/Home.module.css';
+import { styles, SpinnerDotted } from '../../imports';
 
 interface CountryTileInterface {
   country: {
